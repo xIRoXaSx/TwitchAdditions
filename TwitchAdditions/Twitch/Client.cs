@@ -1,22 +1,19 @@
-﻿using System.Text;
-using TwitchLib.Client;
+﻿using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Events;
 using TwitchLib.Communication.Models;
-using YamlDotNet.Serialization;
 
 namespace TwitchAdditions.Twitch; 
 
 public class Client {
     private readonly TwitchClient _client;
-    private readonly Config deConf;
     
     public Client() {
-        var deserializer = new DeserializerBuilder().Build();
-        deConf = deserializer.Deserialize<Config>(File.ReadAllText(Config.ConfigPath, Encoding.UTF8));
-        var creds = new ConnectionCredentials(deConf.Settings.ClientId, deConf.Settings.AccessToken);
+        var creds = new ConnectionCredentials(
+            Program.DeserializedConf.Settings.UserName, Program.DeserializedConf.Settings.UserOAuth
+        );
         var clientOpts = new ClientOptions {
             MessagesAllowedInPeriod = 750,
             ThrottlingPeriod = TimeSpan.FromSeconds(30)
@@ -28,7 +25,7 @@ public class Client {
     }
 
     /// <summary>
-    /// Initialize the connection to Twitch.
+    /// Establish the connection to Twitch.
     /// </summary>
     internal void Connect() {
         _client.OnConnected += ClientOnConnected;

@@ -41,6 +41,8 @@ public class Config {
 /// Settings for the Twitch channel which are creating events
 /// </summary>
 public class TwitchSettings {
+    public string UserName { get; set; } = "Your username";
+    public string UserOAuth { get; set; } = "Your OAuth token";
     public string ClientId { get; set; } = "Your Client ID";
     public string AccessToken { get; set; } = "Your App Access Token";
 }
